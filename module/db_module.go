@@ -11,12 +11,6 @@ import (
 	. "github.com/freelifer/litelib/public"
 )
 
-var (
-	DatabaseEngine struct {
-		Tables []interface{}
-	}
-)
-
 type DatabaseModule struct {
 }
 
@@ -35,7 +29,7 @@ func (module *DatabaseModule) Setup(config map[string]string) error {
 	DB.Engine.ShowSQL(true)
 	// x.Logger().SetLevel(core.LOG_DEBUG)
 
-	if err = DB.Engine.StoreEngine("InnoDB").Sync2(DatabaseEngine.Tables...); err != nil {
+	if err = DB.Engine.StoreEngine("InnoDB").Sync2(DB.Tables...); err != nil {
 		log.Fatalf("sync database struct error: %v\n", err)
 	}
 	return nil

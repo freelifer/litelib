@@ -13,16 +13,17 @@ type LiteLib struct {
 }
 
 func NewLiteLib() *LiteLib {
-	r := gin.Default()
-	return &LiteLib{configPath: "config/conf.ini", r: r}
+	l := &LiteLib{}
+	l.configPath = "conf/app.conf"
+	return l
 }
 
 func (this *LiteLib) SetConfigPath(path string) {
 	this.configPath = path
 }
 
-func (this *LiteLib) GetGinEngine() *gin.Engine {
-	return this.r
+func (this *LiteLib) SetGinEngine(r *gin.Engine) {
+	this.r = r
 }
 
 func (this *LiteLib) Run() {
@@ -50,7 +51,7 @@ func (this *LiteLib) Run() {
 		adapter, err := module.NewModule(v)
 		if err != nil {
 			fmt.Println(err)
-			return
+			continue
 		}
 		config, err := c.GetSection(v)
 
