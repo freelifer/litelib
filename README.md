@@ -31,3 +31,14 @@ user = root
 passwd = rootroot
 path = data.db
 ```
+
+## Public
+
+
+```
+DefaultQueryForInt(c *gin.Context, key string, defaultValue int) int
+
+DefaultQueryForInt64(c *gin.Context, key string, defaultValue int64) int64
+
+ParamFromID(c *gin.Context, key string) (int64, error)
+```
