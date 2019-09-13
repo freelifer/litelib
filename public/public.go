@@ -6,6 +6,10 @@ import (
 	"github.com/go-xorm/xorm"
 	"math/big"
 	"strconv"
+
+	"fmt"
+	"github.com/sony/sonyflake"
+	"time"
 )
 
 var (
@@ -17,7 +21,23 @@ var (
 	Gin struct {
 		g *gin.Engine
 	}
+
+	SF *sonyflake.Sonyflake
 )
+
+func init() {
+	fmt.Println("-------models init")
+	var st sonyflake.Settings
+	st.StartTime = time.Now()
+
+	SF = sonyflake.NewSonyflake(st)
+	if SF == nil {
+		panic("sonyflake not created")
+	}
+
+	// ip, _ := lower16BitPrivateIP()
+	// machineID = uint64(ip)
+}
 
 func Insert(i interface{}) (err error) {
 	sess := DB.Engine.NewSession()
@@ -52,6 +72,10 @@ func DefaultQueryForInt64(c *gin.Context, key string, defaultValue int64) int64 
 // ParamFromId returns the keyed url param value if it exists
 func ParamFromID(c *gin.Context, key string) (int64, error) {
 	return strconv.ParseInt(c.Param(key), 10, 64)
+}
+
+func ParamFromUUID(c *gin.Context, key string) (uint64, error) {
+	return strconv.ParseUint(c.Param(key), 0, 64)
 }
 
 const alphanum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
