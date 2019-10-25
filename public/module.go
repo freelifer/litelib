@@ -4,92 +4,50 @@ import (
 	"fmt"
 )
 
-type BaseErr struct {
-	Module string
+// 数据不存在-------------------------------------------------------------------
+///----------------------------------------------------------------------------
+///----------------------------------------------------------------------------
+type ErrNotExist struct {
+	Field string
 }
 
-type ErrNameAlreadExist struct {
-	Module string
-	Name   string
-}
-
-func IsErrNameAlreadExist(err error) bool {
-	_, ok := err.(ErrNameAlreadExist)
+func IsErrNotExist(err error) bool {
+	_, ok := err.(ErrNotExist)
 	return ok
 }
 
-func (err ErrNameAlreadExist) Error() string {
-	return fmt.Sprintf("[%s] [name:%s] already exists", err.Module, err.Name)
+func (err ErrNotExist) Error() string {
+	return fmt.Sprintf("%s not exists", err.Field)
 }
 
-type ErrUUIDNotExist struct {
-	Module string
-	Uuid   string
+// 数据为空---------------------------------------------------------------------
+///----------------------------------------------------------------------------
+///----------------------------------------------------------------------------
+type ErrDataEmpty struct {
+	Field string
 }
 
-func IsErrUUIDNotExist(err error) bool {
-	_, ok := err.(ErrUUIDNotExist)
+func IsErrDataEmpty(err error) bool {
+	_, ok := err.(ErrNotExist)
 	return ok
 }
 
-func (err ErrUUIDNotExist) Error() string {
-	return fmt.Sprintf("[%s] [uuid:%s] not exists", err.Module, err.Uuid)
+func (err ErrDataEmpty) Error() string {
+	return fmt.Sprintf("%s is empty", err.Field)
 }
 
-type ErrCodeAlreadExist struct {
-	Module string
-	Code   string
+// 数据已经存在------------------------------------------------------------------
+///----------------------------------------------------------------------------
+///----------------------------------------------------------------------------
+type ErrAlreadExist struct {
+	Field string
 }
 
-func IsErrCodeAlreadExist(err error) bool {
-	_, ok := err.(ErrCodeAlreadExist)
+func IsErrAlreadExist(err error) bool {
+	_, ok := err.(ErrAlreadExist)
 	return ok
 }
 
-func (err ErrCodeAlreadExist) Error() string {
-	return fmt.Sprintf("[%s] [code:%s] already exists", err.Module, err.Code)
-}
-
-// Error 名称重复
-type ErrNameRepeat struct {
-	BaseErr
-	Name string
-}
-
-func IsErrNameRepeat(err error) bool {
-	_, ok := err.(ErrNameRepeat)
-	return ok
-}
-
-func (err ErrNameRepeat) Error() string {
-	return fmt.Sprintf("[%s] [name:%s] repeat", err.Module, err.Name)
-}
-
-// Error 名称不存在
-type ErrNameNotExist struct {
-	Module string
-	Name   string
-}
-
-func IsErrNameNotExist(err error) bool {
-	_, ok := err.(ErrNameNotExist)
-	return ok
-}
-
-func (err ErrNameNotExist) Error() string {
-	return fmt.Sprintf("[%s] [name:%s] not found", err.Module, err.Name)
-}
-
-type ErrIdNotExist struct {
-	Module string
-	Id     int64
-}
-
-func IsErrIdNotExist(err error) bool {
-	_, ok := err.(ErrIdNotExist)
-	return ok
-}
-
-func (err ErrIdNotExist) Error() string {
-	return fmt.Sprintf("[%s] [id:%d]  not found", err.Module, err.Id)
+func (err ErrAlreadExist) Error() string {
+	return fmt.Sprintf("%s already exists", err.Field)
 }

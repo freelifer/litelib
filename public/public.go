@@ -2,14 +2,15 @@ package public
 
 import (
 	"crypto/rand"
+	"math/big"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-xorm/xorm"
-	"math/big"
-	"strconv"
 
 	"fmt"
-	"github.com/sony/sonyflake"
 	"time"
+
+	"github.com/sony/sonyflake"
 )
 
 var (
@@ -51,31 +52,6 @@ func Insert(i interface{}) (err error) {
 	}
 
 	return sess.Commit()
-}
-
-// DefaultQueryForInt returns the keyed url query value if it exists
-func DefaultQueryForInt(c *gin.Context, key string, defaultValue int) int {
-	if value, ok := strconv.Atoi(c.Query(key)); ok == nil {
-		return value
-	}
-	return defaultValue
-}
-
-// DefaultQueryForInt64 returns the keyed url query value if it exists
-func DefaultQueryForInt64(c *gin.Context, key string, defaultValue int64) int64 {
-	if value, ok := strconv.ParseInt(c.Query(key), 10, 64); ok == nil {
-		return value
-	}
-	return defaultValue
-}
-
-// ParamFromId returns the keyed url param value if it exists
-func ParamFromID(c *gin.Context, key string) (int64, error) {
-	return strconv.ParseInt(c.Param(key), 10, 64)
-}
-
-func ParamFromUUID(c *gin.Context, key string) (uint64, error) {
-	return strconv.ParseUint(c.Param(key), 0, 64)
 }
 
 const alphanum = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
